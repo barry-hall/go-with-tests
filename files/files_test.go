@@ -18,9 +18,12 @@ func TestNewBlogPost(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	got := posts[0]
-	want := files.Post{Title: "Post 1"}
+	assertPost(t, posts[0], files.Post{Title: "Post 1"})
 
+}
+
+func assertPost(t *testing.T, got files.Post, want files.Post) {
+	t.Helper()
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %v want %v", got, want)
 	}
