@@ -1,17 +1,47 @@
 package files
 
-import "io"
+import (
+	"bufio"
+	"bytes"
+	"fmt"
+	"io"
+	"strings"
+)
+
+const (
+	titleSeperator = "Title: "
+	descSeperator  = "Description: "
+	tagsSeperator  = "Tags: "
+)
 
 type Post struct {
-	Title string
+	Title       string
+	Description string
+	Tags        []string
+	Body        string
 }
 
 func newPost(postFile io.Reader) (Post, error) {
-	postData, err := io.ReadAll(postFile)
-	if err != nil {
-		return Post{}, err
+	scanner := bufio.NewScanner(postFile)
+
+	readMetaLine := func(tagName string) string {
+		scanner.Scan()
+		return strings.TrimPrefix(scanner.Text(), tagName)
 	}
 
-	post := Post{Title: string(postData)[7:]}
-	return post, nil
+	return Post{
+		Title:       readMetaLine(titleSeperator),
+		Description: readMetaLine(descSeperator),
+		Tags:        strings.Split(readMetaLine(tagsSeperator), ", "),
+		Body:        readBody(scanner),
+	}, nil
+}
+
+func readBody(scanner *bufio.Scanner) string {
+	scanner.Scan() // ignore the "---" line
+	buf := bytes.Buffer{}
+	for scanner.Scan() {
+		fmt.Fprintln(&buf, scanner.Text())
+	}
+	return strings.TrimSuffix(buf.String(), "\n")
 }

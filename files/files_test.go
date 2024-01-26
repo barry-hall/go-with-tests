@@ -8,9 +8,25 @@ import (
 )
 
 func TestNewBlogPost(t *testing.T) {
+	const (
+		firstBody = `Title: Post 1
+Description: Description 1
+Tags: tdd, go
+---
+Hello
+World`
+		secondBody = `Title: Post 2
+Description: Description 2
+Tags: rust, borrow-checker
+---
+Go
+is
+awesome`
+	)
+
 	fs := fstest.MapFS{
-		"hello_world.md":   {Data: []byte("Title: Post 1")},
-		"hello_world_2.md": {Data: []byte("Title: Post 2")},
+		"hello_world.md":   {Data: []byte(firstBody)},
+		"hello_world_2.md": {Data: []byte(secondBody)},
 	}
 
 	posts, err := files.NewPostsFromFS(fs)
@@ -18,7 +34,13 @@ func TestNewBlogPost(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assertPost(t, posts[0], files.Post{Title: "Post 1"})
+	assertPost(t, posts[0], files.Post{
+		Title:       "Post 1",
+		Description: "Description 1",
+		Tags:        []string{"tdd", "go"},
+		Body: `Hello
+World`,
+	})
 
 }
 
