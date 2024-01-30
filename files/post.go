@@ -37,6 +37,10 @@ func newPost(postFile io.Reader) (Post, error) {
 	}, nil
 }
 
+func (p Post) SanitisedTitle() string {
+	return strings.ToLower(strings.Replace(p.Title, " ", "-", -1))
+}
+
 func readBody(scanner *bufio.Scanner) string {
 	scanner.Scan() // ignore the "---" line
 	buf := bytes.Buffer{}
