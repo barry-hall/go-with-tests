@@ -1,7 +1,8 @@
-package numerals
+package numerals_test
 
 import (
 	"fmt"
+	. "go-with-tests/numerals"
 	"testing"
 )
 

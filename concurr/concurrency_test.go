@@ -1,6 +1,7 @@
-package concurrency
+package concurrency_test
 
 import (
+	. "go-with-tests/concurr"
 	"reflect"
 	"testing"
 	"time"

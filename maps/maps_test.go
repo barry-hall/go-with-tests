@@ -1,6 +1,7 @@
-package maps
+package maps_test
 
 import (
+	. "go-with-tests/maps"
 	"testing"
 )
 

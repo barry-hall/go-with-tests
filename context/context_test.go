@@ -1,8 +1,9 @@
-package context3
+package context3_test
 
 import (
 	"context"
 	"errors"
+	. "go-with-tests/context"
 	"log"
 	"net/http"
 	"net/http/httptest"

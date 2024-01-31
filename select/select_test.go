@@ -1,6 +1,7 @@
-package racer
+package racer_test
 
 import (
+	. "go-with-tests/select"
 	"net/http"
 	"net/http/httptest"
 	"testing"
