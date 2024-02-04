@@ -1,7 +1,7 @@
 package server_test
 
 import (
-	. "go-with-tests/httpserver"
+	. "go-with-tests/httpserver/server"
 	"net/http"
 	"net/http/httptest"
 	"testing"
