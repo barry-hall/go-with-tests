@@ -1,11 +1,18 @@
 package main
 
 import (
-	. "go-with-tests/httpserver/server"
+	srv "go-with-tests/httpserver/server"
+	"log"
 	"net/http"
 )
 
+type InMemoryPlayerStore struct{}
+
+func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
+	return 123
+}
+
 func main() {
-	handler := http.HandlerFunc(PlayerServer)
-	http.ListenAndServe(":5000", handler)
+	server := &srv.PlayerServer{Store: &InMemoryPlayerStore{}}
+	log.Fatal(http.ListenAndServe(":5001", server))
 }
