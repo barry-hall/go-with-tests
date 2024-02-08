@@ -12,7 +12,7 @@ func NewInMemoryPlayerStore() *InMemoryPlayerStore {
 
 // InMemoryPlayerStore collects data about players in memory.
 type InMemoryPlayerStore struct {
-	store map[string]int
+	Store map[string]int
 	// A mutex is used to synchronize read/write access to the map
 	lock sync.RWMutex
 }
@@ -21,12 +21,12 @@ type InMemoryPlayerStore struct {
 func (i *InMemoryPlayerStore) RecordWin(name string) {
 	i.lock.Lock()
 	defer i.lock.Unlock()
-	i.store[name]++
+	i.Store[name]++
 }
 
 // GetPlayerScore retrieves scores for a given player.
 func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 	i.lock.RLock()
 	defer i.lock.RUnlock()
-	return i.store[name]
+	return i.Store[name]
 }
