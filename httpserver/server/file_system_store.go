@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 )
 
 type FileSystemPlayerStore struct {
@@ -20,10 +21,6 @@ func NewFileSystemPlayerStore(file *os.File) (*FileSystemPlayerStore, error) {
 		return nil, fmt.Errorf("problem initialising player db file, %v", err)
 	}
 
-	if err != nil {
-		return nil, fmt.Errorf("problem initialising player db file, %v", err)
-
-	}
 	league, err := NewLeague(file)
 
 	if err != nil {
@@ -54,6 +51,9 @@ func initialisePlayerDbFile(file *os.File) error {
 }
 
 func (f *FileSystemPlayerStore) GetLeague() League {
+	sort.Slice(f.League, func(i, j int) bool {
+		return f.League[i].Wins > f.League[j].Wins
+	})
 	return f.League
 }
 
